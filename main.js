@@ -5,12 +5,15 @@ app.set("view engine", "twig")
 app.set("views", "./public/views")
 
 //parse application/x-www-form-urlencode
+//parse application/json
 const { check, validationResult } = require("express-validator")
 const bodyParser = require("body-parser")
 const { urlencoded } = require("body-parser")
 var jsonParser = bodyParser.json()
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
-//parse application/json
+
+//For match data when you have lots of textfield
+const { matchedData, sanitizeBody } = require("express-validator")
 
 app.listen(3000, () => {
     console.log("Server running at port 3000");
@@ -25,14 +28,23 @@ app.post("/login", urlencodedParser, (req, res) => {
 })
 
 app.post("/", urlencodedParser, [
-    check("username", "username should be emailID").isEmail(),
-    check("password", "password must be in 5 character").isLength({ min: 5 })
+    check("username", "username should be emailID").trim().isEmail(),
+    check("password", "password must be in 5 character").trim().isLength({ min: 5 }),
+    check("cpassword").custom((value,{req})=>{
+        if (value != req.body.password) {
+            throw new Error("Confirm Password does not match password")
+        }
+        return true
+    })
 ], (req, res) => {
     const errors = validationResult(req)
     console.log(errors.mapped());
     if (!errors.isEmpty()) {
-        res.render("index", { error: errors.mapped() })
+        const user = matchedData(req)
+        res.render("index", {title:"User Details", error: errors.mapped(),user:user})
     } else {
-        res.render("login", { title: "User Details", username: req.body.username, password: req.body.password })
+        const user = matchedData(req)
+        console.log(user);
+        res.render("login", { title: "User Details", user: user })
     }
 })
