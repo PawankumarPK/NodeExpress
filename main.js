@@ -1,26 +1,33 @@
 var express = require("express")
+const bodyParser = require("body-parser")
 var app = express()
 app.use("/static", express.static("public"))
 app.set("view engine", "twig")
 app.set("views", "./public/views")
+
+//parse application/x-www-form-urlencode
+app.use(bodyParser.urlencoded({ extended: false }))
+
+//parse application/json
+app.use(bodyParser.json())
 
 app.listen(3000, () => {
     console.log("Server running at port 3000");
 })
 
 //Routing
+// app.get("/", (req, res) => {
+//     res.render("index", { title: "Pawan Demo", message: "Demo website here..." })
+// })
+
 app.get("/", (req, res) => {
-    res.render("index", { title: "Pawan Demo", message: "Demo website here..." })
+    res.render("index", { title: "Login Form", Message: "Enter username and password", })
 })
 
-app.get("/sum/:a-:b", (req, res) => {
-    res.render("index", {
-        title: "Sum of numbers", 
-        Addition: parseInt(req.params.a) + parseInt(req.params.b),
-        Subtraction: parseInt(req.params.a) - parseInt(req.params.b),
-        Multiplication: parseInt(req.params.a) * parseInt(req.params.b),
-    })
+app.post("/", (req, res) => {
+    res.render("login", { title: "User Details", username: req.body.username, password: req.body.password })
 })
+
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/index.html")
