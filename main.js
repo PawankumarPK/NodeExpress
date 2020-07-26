@@ -1,30 +1,26 @@
 var express = require("express")
-const bodyParser = require("body-parser")
 var app = express()
 app.use("/static", express.static("public"))
 app.set("view engine", "twig")
 app.set("views", "./public/views")
 
 //parse application/x-www-form-urlencode
-app.use(bodyParser.urlencoded({ extended: false }))
-
+const { check, validationResult } = require("express-validator")
+const bodyParser = require("body-parser")
+const { urlencoded } = require("body-parser")
+var jsonParser  = bodyParser.json()
+var urlencodedParser = bodyParser.urlencoded({ extended: false })
 //parse application/json
-app.use(bodyParser.json())
 
 app.listen(3000, () => {
     console.log("Server running at port 3000");
 })
 
-//Routing
-// app.get("/", (req, res) => {
-//     res.render("index", { title: "Pawan Demo", message: "Demo website here..." })
-// })
-
 app.get("/", (req, res) => {
     res.render("index", { title: "Login Form", Message: "Enter username and password", })
 })
 
-app.post("/", (req, res) => {
+app.post("/login", urlencodedParser,(req, res) => {
     res.render("login", { title: "User Details", username: req.body.username, password: req.body.password })
 })
 
