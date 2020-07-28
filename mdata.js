@@ -19,4 +19,3 @@ var employee = new employeeModel({
 })
 
 employee.totalSalary()
-//console.log(employee);
