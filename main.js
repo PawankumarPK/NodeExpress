@@ -23,11 +23,11 @@ app.get("/", (req, res) => {
     res.render("index", { title: "Login Form", Message: "Enter username and password", })
 })
 
-app.post("/login", urlencodedParser, (req, res) => {
-    res.render("login", { title: "User Details", username: req.body.username, password: req.body.password })
-})
+// app.post("/login", urlencodedParser, (req, res) => {
+//     res.render("login", { title: "User Details", username: req.body.username, password: req.body.password })
+// })
 
-app.post("/", urlencodedParser, [
+app.post("/login", urlencodedParser, [
     check("username", "username should be emailID").trim().isEmail(),
     check("password", "password must be in 5 character").trim().isLength({ min: 5 }),
     check("cpassword").custom((value,{req})=>{
