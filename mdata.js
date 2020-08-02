@@ -18,8 +18,8 @@ employeeSchema.methods.totalSalary = function(){
 
 var employeeModel = mongoose.model("Employee", employeeSchema)
 var employee = new employeeModel({
-    name: "Pawan", email: "pawan@gmail.com", eType: "hourly",
-    hourlyrate: 10, totalHour: 16
+    name: "Rahul", email: "rahul@gmail.com", eType: "daily",
+    hourlyrate: 8, totalHour: 16
 })
 
 employee.total = employee.totalSalary()
@@ -35,10 +35,18 @@ conn.on("disconnected",function(){
 
 conn.on("error",console.error.bind(console,"Connection error: "))
 conn.once("open",function(){
-    employee.save(function(err,res){
-        if(err) throw error
-        console.log(res);
-        conn.close()
+    // employee.save(function(err,res){
+    //     if(err) throw error
+    //     console.log(res);
+    //     conn.close()
+
+    // })
+
+    //find Query
+    employeeModel.findById({_id:"5f269da388a8390526301d37"},function(err,data){
+        if(err)throw err
+        console.log(data);
+        conn.close
 
     })
 })
