@@ -43,7 +43,7 @@ conn.once("open",function(){
     // })
 
     //find Query
-    employeeModel.findById({_id:"5f269da388a8390526301d37"},function(err,data){
+    employeeModel.findOneAndUpdate({name:"Rahul"},{name:"Shankar"},function(err,data){
         if(err)throw err
         console.log(data);
         conn.close
