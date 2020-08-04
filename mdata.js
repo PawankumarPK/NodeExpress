@@ -1,5 +1,7 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://SampleDatabase:9810507699@cluster0.hawxu.mongodb.net/SampleDatabase?retryWrites=true&w=majority', {useNewUrlParser: true});
+mongoose.connect('mongodb+srv://SampleDatabase:9810507699@cluster0.hawxu.mongodb.net/SampleDatabase?retryWrites=true&w=majority',
+ {useNewUrlParser: true, useUnifiedTopology: true});
+
 var conn = mongoose.connection
 
 var employeeSchema = new mongoose.Schema({
@@ -18,7 +20,7 @@ employeeSchema.methods.totalSalary = function(){
 
 var employeeModel = mongoose.model("Employee", employeeSchema)
 var employee = new employeeModel({
-    name: "Pawan", email: "pawan@gmail.com", eType: "daily",
+    name: "Pankaj", email: "PANKAJ@gmail.com", eType: "daily",
     hourlyrate: 8, totalHour: 16
 })
 
@@ -47,6 +49,6 @@ conn.once("open",function(){
     //     if(err)throw err
     //     console.log(data);
     //     conn.close
-    
+
     // })
 })
