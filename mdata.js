@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/employee', {useNewUrlParser: true});
+mongoose.connect('mongodb+srv://SampleDatabase:9810507699@cluster0.hawxu.mongodb.net/SampleDatabase?retryWrites=true&w=majority', {useNewUrlParser: true});
 var conn = mongoose.connection
 
 var employeeSchema = new mongoose.Schema({
@@ -18,7 +18,7 @@ employeeSchema.methods.totalSalary = function(){
 
 var employeeModel = mongoose.model("Employee", employeeSchema)
 var employee = new employeeModel({
-    name: "Rahul", email: "rahul@gmail.com", eType: "daily",
+    name: "Pawan", email: "pawan@gmail.com", eType: "daily",
     hourlyrate: 8, totalHour: 16
 })
 
@@ -35,18 +35,18 @@ conn.on("disconnected",function(){
 
 conn.on("error",console.error.bind(console,"Connection error: "))
 conn.once("open",function(){
-    // employee.save(function(err,res){
-    //     if(err) throw error
-    //     console.log(res);
-    //     conn.close()
-
-    // })
-
-    //find Query
-    employeeModel.findOneAndUpdate({name:"Rahul"},{name:"Shankar"},function(err,data){
-        if(err)throw err
-        console.log(data);
-        conn.close
+     employee.save(function(err,res){
+        if(err) throw error
+        console.log(res);
+        conn.close()
 
     })
+
+    //find Query
+    // employeeModel.find({},function(err,data){
+    //     if(err)throw err
+    //     console.log(data);
+    //     conn.close
+    
+    // })
 })
